@@ -10,3 +10,16 @@
   min-height: 100vh;
   display: flex;
 }
+
+.scrollhide::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
