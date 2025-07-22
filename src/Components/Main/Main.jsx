@@ -100,7 +100,7 @@ const Main = () => {
                 </div>
               ) : (
                 <p
-                  className="flex-1 font-light text-base sm:text-lg leading-7 sm:leading-8"
+                  className="w-full text-base sm:text-lg leading-7 text-gray-800 space-y-4 [&>h1]:text-3xl [&>h2]:text-2xl [&>h3]:text-xl [&>ul]:list-disc [&>ul]:pl-6 [&>ol]:list-decimal [&>ol]:pl-6 [&>strong]:font-semibold [&>p]:mt-2"
                   dangerouslySetInnerHTML={{ __html: resultData }}
                 ></p>
               )}

@@ -1,4 +1,5 @@
 import { createContext, useState } from "react";
+import { marked } from "marked";
 import main from "../config/ai";
 
 export const Context = createContext();
@@ -12,15 +13,18 @@ const ContextProvider = (props) => {
   const [resultData, setResultData] = useState("");
 
   const delayPara = (index, nextWord) => {
-    setTimeout(function () {
+    setTimeout(() => {
       setResultData((prev) => prev + nextWord);
-    }, 75 * index);
+    }, 10 * index);
   };
 
-  const newChat=()=>{
-    setLoading(false)
-    setShowResult(false)
-  }
+  const newChat = () => {
+    setLoading(false);
+    setShowResult(false);
+    setResultData("");
+    setInput("");
+    setRecentPrompts("");
+  };
 
   const onSent = async (prompt) => {
     setResultData("");
@@ -39,23 +43,13 @@ const ContextProvider = (props) => {
       response = await main(input);
     }
 
-    let responseArray = response.split("**");
-    let newResponse = "";
-    for (let i = 0; i < responseArray.length; i++) {
-      if (i === 0 || i % 2 !== 1) {
-        newResponse += responseArray[i];
-      } else {
-        newResponse += "<b>" + responseArray[i] + "</b>";
-      }
+    const htmlFormatted = marked.parse(response);
+
+    const words = htmlFormatted.split(" ");
+    for (let i = 0; i < words.length; i++) {
+      delayPara(i, words[i] + " ");
     }
 
-    let newResponse2 = newResponse.split("*").join("</br>");
-
-    let newResponseArray = newResponse2.split(" ");
-    for (let i = 0; i < newResponseArray.length; i++) {
-      const nextWord = newResponseArray[i];
-      delayPara(i, nextWord + " ");
-    }
     setLoading(false);
   };
 
@@ -70,11 +64,13 @@ const ContextProvider = (props) => {
     resultData,
     input,
     setInput,
-    newChat
+    newChat,
   };
 
   return (
-    <Context.Provider value={contextvalue}>{props.children}</Context.Provider>
+    <Context.Provider value={contextvalue}>
+      {props.children}
+    </Context.Provider>
   );
 };
 

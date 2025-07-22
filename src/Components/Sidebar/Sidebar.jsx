@@ -6,7 +6,7 @@ import {
   Plus,
   Settings,
 } from "lucide-react";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../Context/Context";
 
 const Sidebar = () => {
@@ -14,10 +14,16 @@ const Sidebar = () => {
 
   const [sidebar, setSidebar] = useState(true);
 
-  const loadPrompt=async(prompt)=>{
-    setRecentPrompts(prompt)
-    await onSent(prompt)
-  }
+  useEffect(() => {
+    if (window.innerWidth < 640) {
+      setSidebar(false);
+    }
+  }, []);
+
+  const loadPrompt = async (prompt) => {
+    setRecentPrompts(prompt);
+    await onSent(prompt);
+  };
 
   return (
     <div
@@ -31,9 +37,13 @@ const Sidebar = () => {
           onClick={() => setSidebar(!sidebar)}
           className="cursor-pointer mb-6 ml-[-5px]"
         />
+
         {/* NEW CHAT */}
         {sidebar ? (
-          <div onClick={()=>newChat()} className="mt-[50px] flex items-center gap-[10px] py-[10px] px-[15px] cursor-pointer text-gray-500 text-sm bg-gray-200 rounded-xl">
+          <div
+            onClick={() => newChat()}
+            className="mt-[50px] flex items-center gap-[10px] py-[10px] px-[15px] cursor-pointer text-gray-500 text-sm bg-gray-200 rounded-xl"
+          >
             <Plus />
             <p>New Chat</p>
           </div>
@@ -45,14 +55,18 @@ const Sidebar = () => {
         {sidebar && (
           <div className="flex flex-col">
             <p className="mt-[30px] mb-[20px]">Recent</p>
-            {previousPromts?.map((item, index) => {
-              return (
-                <div onClick={()=>loadPrompt(item)} className="flex items-start gap-[10px] p-[10px] pr-[10px] rounded-2xl cursor-pointer text-gray-500 hover:bg-gray-300">
-                  <MessageSquare />
-                  <p className="flex-1 text-ellipsis whitespace-nowrap overflow-hidden">{item.slice(0,18)}....</p>
-                </div>
-              );
-            })}
+            {previousPromts?.map((item, index) => (
+              <div
+                key={index}
+                onClick={() => loadPrompt(item)}
+                className="flex items-start gap-[10px] p-[10px] pr-[10px] rounded-2xl cursor-pointer text-gray-500 hover:bg-gray-300"
+              >
+                <MessageSquare />
+                <p className="flex-1 text-ellipsis whitespace-nowrap overflow-hidden">
+                  {item.slice(0, 18)}....
+                </p>
+              </div>
+            ))}
           </div>
         )}
       </div>
