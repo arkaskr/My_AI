@@ -24,7 +24,7 @@ const Main = () => {
   } = useContext(Context);
 
   return (
-    <div className="flex-1 min-h-[100vh] pb-[15vh] relative">
+    <div className="flex-1 pb-[15vh] relative">
       {/* NAVIGATION */}
       <div className="flex items-center justify-between text-xl md:text-3xl p-5 text-gray-600">
         <p>MY_AI</p>
@@ -134,7 +134,8 @@ const Main = () => {
           </div>
 
           <p className="text-sm sm:text-md my-[15px] text-center font-semibold text-gray-500">
-            This is your own personal AI assistant, with end-to-end privacy encryption. Enjoy!
+            This is your own personal AI assistant, with end-to-end privacy
+            encryption. Enjoy!
           </p>
         </div>
       </div>

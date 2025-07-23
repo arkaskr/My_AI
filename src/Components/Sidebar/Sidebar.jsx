@@ -27,7 +27,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`min-h-[100vh] bg-blue-50 p-[25px] ${
+      className={` bg-blue-50 p-[25px] ${
         sidebar ? "w-64" : "w-16"
       } transition-all duration-300 flex flex-col justify-between`}
     >
